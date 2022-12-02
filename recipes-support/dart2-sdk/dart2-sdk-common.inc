@@ -1,0 +1,13 @@
+SUMMARY = "Dart makes it easy and fast to build beautiful apps for mobile and beyond."
+DESCRIPTION = "Dart is Google's SDK, is used by developers and organizations around the world, \
+               and is free and open source."
+AUTHOR = "Google"
+HOMEPAGE = "https://dart.dev/"
+BUGTRACKER = "https://github.com/dart-lang/sdk/issues"
+SECTION = "devtools"
+CVE_PRODUCT = ""
+
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=29b4ad63b1f1509efea6629404336393"
+
+DART2_SDK_VERSION = "2.18.4"

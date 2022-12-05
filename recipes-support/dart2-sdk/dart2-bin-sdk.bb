@@ -13,11 +13,22 @@ RDEPENDS_${PN}:class-target += "ca-certificates"
 
 SRCREV = "${DART2_SDK_VERSION}"
 
-SRC_URI:class-native = "https://storage.googleapis.com/dart-archive/channels/stable/release/${SRCREV}/sdk/dartsdk-linux-x64-release.zip;downloadfilename=${BPN}-${SRCREV}-x64-release.zip;subdir=extracted;name=host"
+COMPATIBLE_MACHINE = "(-)"
+COMPATIBLE_MACHINE:aarch64 = "(.*)"
+COMPATIBLE_MACHINE:x86 = "(.*)"
+COMPATIBLE_MACHINE:x86-64 = "(.*)"
+
+DART_BIN_SDK_TARGET_ARCH:x86-64 = "x64"
+DART_BIN_SDK_SRC_SHA256SUM:x86-64 = "945c3e29ac7386e00c9eeeb2a5ccc836acb0ce9883fbc29df82fd41c90eb3bd6"
+
+DART_BIN_SDK_TARGET_ARCH:aarch64 = "arm64"
+DART_BIN_SDK_SRC_SHA256SUM:aarch64 = "b279454d8e2827800b18b736d745126c8d99ffffdcc752156145a6ed5a39cf62"
+
+SRC_URI:class-native = "https://storage.googleapis.com/dart-archive/channels/stable/release/${SRCREV}/sdk/dartsdk-linux-x64-release.zip;downloadfilename=${BPN}-${SRCREV}-x64-native-release.zip;subdir=extracted;name=host"
 SRC_URI[host.sha256sum] = "945c3e29ac7386e00c9eeeb2a5ccc836acb0ce9883fbc29df82fd41c90eb3bd6"
 
-SRC_URI:class-target = "https://storage.googleapis.com/dart-archive/channels/stable/release/${SRCREV}/sdk/dartsdk-linux-arm64-release.zip;downloadfilename=${BPN}-${SRCREV}-arm64-release.zip;subdir=extracted;name=target"
-SRC_URI[target.sha256sum] = "b279454d8e2827800b18b736d745126c8d99ffffdcc752156145a6ed5a39cf62"
+SRC_URI:class-target = "https://storage.googleapis.com/dart-archive/channels/stable/release/${SRCREV}/sdk/dartsdk-linux-${DART_BIN_SDK_TARGET_ARCH}-release.zip;downloadfilename=${BPN}-${SRCREV}-${DART_BIN_SDK_TARGET_ARCH}-target-release.zip;subdir=extracted;name=target"
+SRC_URI[target.sha256sum] = "${DART_BIN_SDK_SRC_SHA256SUM}"
 
 S = "${WORKDIR}/extracted/dart-sdk"
 DART2_BIN_SDK_DIR = "/opt/dart2-bin-sdk"

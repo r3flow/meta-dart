@@ -2,6 +2,19 @@ include dart2-sdk-common.inc
 
 inherit logging
 
+COMPATIBLE_MACHINE = "(-)"
+COMPATIBLE_MACHINE:aarch64 = "(.*)"
+COMPATIBLE_MACHINE:x86 = "(.*)"
+COMPATIBLE_MACHINE:x86-64 = "(.*)"
+
+DART_SDK_TARGET_ARCH:x86-64 = "x64"
+DART_SDK_RELEASE_DIR:x86-64 = "ReleaseX64"
+
+DART_SDK_TARGET_ARCH:aarch64 = "arm64"
+DART_SDK_RELEASE_DIR:aarch64 = "ReleaseXARM64"
+
+IS_TARGET_ARM64 = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'true', 'false', d)}"
+
 DEPENDS:class-native += "\
     ca-certificates-native \
     dart-depot-tools-native \
@@ -63,6 +76,7 @@ do_unpack() {
 
     install -d ${WORKDIR}/src
 
+    bbnote "dart2-sdk unpack for ${TARGET_ARCH} and ${HOST_ARCH} ${HOST_SYS}  ${PACKAGE_ARCH}  ${BUILD_ARCH} ${TUNE_FEATURES} to ${MACHINE_ARCH}: starting (native)"
     bbnote "dart2-sdk fetch: starting"
     cd ${WORKDIR}/src
     fetch --force dart
@@ -99,14 +113,16 @@ do_compile:class-native () {
     export https_proxy
 
     cd ${S}
-    bbnote "dart2-sdk x64 compile: starting"
+    bbnote "dart2-sdk x64 compile for ${TARGET_ARCH} to ${MACHINE_ARCH}: starting (native)"
     ${S}/tools/build.py --no-goma --mode release --arch x64 create_sdk
-    bbnote "dart2-sdk simarm64 gen_snapshot compile: starting"
-    ${S}/tools/build.py --no-goma --mode release -a simarm64 -m product copy_gen_snapshot
-    bbnote "dart2-sdk arm64 dartaotruntime compile: starting"
-    ${S}/tools/build.py --no-goma --mode release -a arm64 -m product copy_dartaotruntime
-    cp -f ${S}/out/ProductSIMARM64/dart-sdk/bin/utils/gen_snapshot ${S}/out/ReleaseX64/dart-sdk/bin/utils/gen_snapshot
-    cp -f ${S}/out/ProductXARM64/dart-sdk/bin/dartaotruntime ${S}/out/ReleaseX64/dart-sdk/bin/dartaotruntime
+    if $IS_TARGET_ARM64; then
+        bbnote "dart2-sdk simarm64 gen_snapshot compile: starting (native)"
+        ${S}/tools/build.py --no-goma --mode release -a simarm64 -m product copy_gen_snapshot
+        bbnote "dart2-sdk arm64 dartaotruntime compile: starting (native)"
+        ${S}/tools/build.py --no-goma --mode release -a arm64 -m product copy_dartaotruntime
+        cp -f ${S}/out/ProductSIMARM64/dart-sdk/bin/utils/gen_snapshot ${S}/out/ReleaseX64/dart-sdk/bin/utils/gen_snapshot
+        cp -f ${S}/out/ProductXARM64/dart-sdk/bin/dartaotruntime ${S}/out/ReleaseX64/dart-sdk/bin/dartaotruntime
+    fi
 
     dart --disable-analytics
     dart --version
@@ -123,8 +139,8 @@ do_compile:class-target () {
     export https_proxy
 
     cd ${S}
-    bbnote "dart2-sdk arm64 compile: starting"
-    ${S}/tools/build.py --no-goma --mode release --arch arm64 create_sdk
+    bbnote "dart2-sdk ${DART_SDK_TARGET_ARCH} compile: starting (target)"
+    ${S}/tools/build.py --no-goma --mode release --arch ${DART_SDK_TARGET_ARCH} create_sdk
 }
 
 SYSROOT_PREPROCESS_FUNCS:class-native += "dart2_compiled_sdk_sysroot_preprocess"
@@ -135,15 +151,13 @@ dart2_compiled_sdk_sysroot_preprocess () {
 }
 
 do_install:class-native () {
-    chmod -R a+rw ${S}/out/ReleaseX64/dart-sdk
     install -d ${D}${DART2_SDK_DIR}
     cp -R ${S}/out/ReleaseX64/dart-sdk/* ${D}${DART2_SDK_DIR}
 }
 
 do_install:class-target () {
-    chmod -R a+rw ${S}/out/ReleaseXARM64/dart-sdk
     install -d ${D}${DART2_SDK_DIR}
-    cp -R ${S}/out/ReleaseXARM64/dart-sdk/* ${D}${DART2_SDK_DIR}
+    cp -R ${S}/out/${DART_SDK_RELEASE_DIR}/dart-sdk/* ${D}${DART2_SDK_DIR}
 }
 
 ALLOW_EMPTY:${PN} = "1"

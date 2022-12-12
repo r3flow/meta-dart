@@ -1,4 +1,4 @@
-include dart2-sdk-common.inc
+require dart2-sdk-common.inc
 
 inherit logging
 

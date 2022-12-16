@@ -26,11 +26,11 @@ There are two possible use cases:
 * If you only want to have SDK available on the target, add the `dart2-bin-sdk` package to the image installation list.
 
 * To create a package from your Dart project, use the example project to create your own recipe. The example recipe can be found in the `recipes-support/cpumodel` directory
- * In this case if you also want the SDK to be available on the target (not required to install and run your package on the target), add the `dart2-sdk` package to the image installation list.
+  * In this case if you also want the SDK to be available on the target (not required to install and run your package on the target), add the `dart2-sdk` package to the image installation list.
 
 ## SDK version locking
 
-The version of the SDK is based on the value of `DART2_SDK_VERSION`. The default value of `DART2_SDK_VERSION` is set in `conf/include/dart2-sdk-version.inc`. You can override `DART2_SDK_VERSION` in `local.conf` to choose a differet SDK version:
+The version of the SDK is based on the value of `DART2_SDK_VERSION`. The default value of `DART2_SDK_VERSION` is set in `conf/include/dart2-sdk-version.inc`. You can override `DART2_SDK_VERSION` in `local.conf` to choose a different SDK version:
 
 ```bash
 DART2_SDK_VERSION = "2.18.4"

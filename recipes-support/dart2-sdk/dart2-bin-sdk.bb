@@ -1,7 +1,5 @@
 require dart2-sdk-common.inc
 
-inherit logging
-
 DEPENDS:class-native += "\
     ca-certificates-native \
     curl-native \

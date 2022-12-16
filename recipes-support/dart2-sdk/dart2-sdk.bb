@@ -1,7 +1,5 @@
 require dart2-sdk-common.inc
 
-inherit logging
-
 COMPATIBLE_MACHINE = "(-)"
 COMPATIBLE_MACHINE:aarch64 = "(.*)"
 COMPATIBLE_MACHINE:x86 = "(.*)"
@@ -76,7 +74,7 @@ do_unpack() {
 
     install -d ${WORKDIR}/src
 
-    bbnote "dart2-sdk unpack for ${TARGET_ARCH} and ${HOST_ARCH} ${HOST_SYS}  ${PACKAGE_ARCH}  ${BUILD_ARCH} ${TUNE_FEATURES} to ${MACHINE_ARCH}: starting (native)"
+    bbnote "dart2-sdk unpack for ${TARGET_ARCH} to ${MACHINE_ARCH}: starting (native)"
     bbnote "dart2-sdk fetch: starting"
     cd ${WORKDIR}/src
     fetch --force dart

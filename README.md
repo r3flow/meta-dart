@@ -4,6 +4,8 @@ Yocto Layer for Google Dart CLI/Service projects.
 
 It's based on the [meta-flutter layer](https://github.com/meta-flutter/meta-flutter) (author Joel Winarske) and J-P Nurmi's [research on cross-compiling](https://medium.com/flutter-community/cross-compiling-dart-apps-f88e69824639).
 
+If you like this layer, help us get the Dart compiler to natively support cross-compilation, please thumbs up the following issue on GitHub! 👍 [Allow AOT executables to be cross-compiled](https://github.com/dart-lang/sdk/issues/28617)
+
 ## Layers dependencies
 
 * meta-clang

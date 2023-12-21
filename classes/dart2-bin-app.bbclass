@@ -28,7 +28,7 @@ DART2_APP_INSTALL_DIR ??= "${DART2_APPLICATION_INSTALL_PREFIX}/${PUBSPEC_APPNAME
 PUB_CACHE = "${WORKDIR}/pub_cache"
 PUB_CACHE_ARCHIVE = "dart2-pub-cache-${PUBSPEC_APPNAME}-${SRCREV}.tar.bz2"
 DART2_SDK_DIR ??= "/opt/dart2-bin-sdk"
-DART2_NATIVE_SDK_ROOT = "${STAGING_DIR_NATIVE}/opt/dart2-bin-sdk"
+DART2_NATIVE_SDK_DIR = "${STAGING_DIR_NATIVE}/opt/dart2-bin-sdk"
 
 #
 # Archive Pub Cache
@@ -58,21 +58,21 @@ python do_archive_pub_cache() {
     pub_cache = d.getVar("PUB_CACHE")
     os.makedirs(pub_cache, exist_ok=True)
 
-    DART2_NATIVE_SDK_ROOT = d.getVar("DART2_NATIVE_SDK_ROOT")
+    DART2_NATIVE_SDK_DIR = d.getVar("DART2_NATIVE_SDK_DIR")
     app_src_root = d.getVar("S")
 
     pub_cache_cmd = \
         'export PUB_CACHE=%s; ' \
         '%s/bin/dart pub get;' \
         '%s/bin/dart pub get --offline' % \
-        (pub_cache, DART2_NATIVE_SDK_ROOT, DART2_NATIVE_SDK_ROOT)
+        (pub_cache, DART2_NATIVE_SDK_DIR, DART2_NATIVE_SDK_DIR)
 
     bb.note("Running %s in %s" % (pub_cache_cmd, app_src_root))
     runfetchcmd('%s' % (pub_cache_cmd), d, quiet=False, workdir=app_src_root)
 
     cp_cmd = \
         'mkdir -p %s/.project | true; ' \
-        'cp -r .dart2_tool %s/.project/ | true; ' \
+        'cp -r .dart_tool %s/.project/ | true; ' \
         'cp -r .packages %s/.project/ | true; ' \
         'cp -r .metadata %s/.project/ | true; ' \
         % (pub_cache, pub_cache, pub_cache, pub_cache)
@@ -131,7 +131,7 @@ python do_restore_pub_cache() {
     # restore dart pub get artifacts
     app_src_root = d.getVar("S")
     cmd = \
-        'mv .project/.dart2_tool %s/ | true; ' \
+        'mv .project/.dart_tool %s/ | true; ' \
         'mv .project/.packages %s/ | true; ' \
         'mv .project/.metadata %s/ | true; ' \
         'rm -rf .project' % (app_src_root, app_src_root, app_src_root)
@@ -148,7 +148,7 @@ python do_restore_pub_cache() {
 do_compile[network] = "0"
 do_compile() {
     export HOME=${WORKDIR}
-    export PATH=${DART2_NATIVE_SDK_ROOT}/bin:$PATH
+    export PATH=${DART2_NATIVE_SDK_DIR}/bin:$PATH
     export PUB_CACHE=${PUB_CACHE}
     export PKG_CONFIG_PATH=${STAGING_DIR_TARGET}/usr/lib/pkgconfig:${STAGING_DIR_TARGET}/usr/share/pkgconfig:${PKG_CONFIG_PATH}
     export http_proxy

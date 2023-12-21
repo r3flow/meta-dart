@@ -54,7 +54,7 @@ do_compile:class-native () {
     dart --version
 }
 
-do_install() {
+do_install:class-target () {
     chmod a+rw ${S} -R
     install -d ${D}${DART2_BIN_SDK_DIR}
     cp -R ${S}/* ${D}${DART2_BIN_SDK_DIR}
@@ -62,7 +62,7 @@ do_install() {
 
 ALLOW_EMPTY:${PN}:class-native = "1"
 
-FILES:${PN} = "${DART2_BIN_SDK_DIR}/*"
+FILES:${PN} += "${DART2_BIN_SDK_DIR}/*"
 
 INSANE_SKIP:${PN}:class-native += "already-stripped file-rdeps"
 INSANE_SKIP:${PN}:class-target += "ldflags already-stripped file-rdeps"

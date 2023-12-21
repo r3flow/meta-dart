@@ -160,7 +160,7 @@ do_install:class-target () {
 
 ALLOW_EMPTY:${PN} = "1"
 
-FILES:${PN} = "${DART2_SDK_DIR}/*"
+FILES:${PN} += "${DART2_SDK_DIR}/*"
 
 INSANE_SKIP:${PN} += "ldflags already-stripped file-rdeps"
 

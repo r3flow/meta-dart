@@ -35,13 +35,13 @@ There are two possible use cases:
 The version of the SDK is based on the value of `DART2_SDK_VERSION`. The default value of `DART2_SDK_VERSION` is set in `conf/include/dart2-sdk-version.inc`. You can override `DART2_SDK_VERSION` in `local.conf` to choose a different SDK version:
 
 ```bash
-DART2_SDK_VERSION = "2.18.4"
+DART2_SDK_VERSION = "2.19.6"
 ```
 If you use the `dart2-bin-sdk` recipe, you must also provide the hashes of the binary archives:
 
 ```bash
-DART2_BIN_SDK_X64_SHA256SUM = "945c3e29ac7386e00c9eeeb2a5ccc836acb0ce9883fbc29df82fd41c90eb3bd6"
-DART2_BIN_SDK_ARM64_SHA256SUM = "b279454d8e2827800b18b736d745126c8d99ffffdcc752156145a6ed5a39cf62"
+DART2_BIN_SDK_X64_SHA256SUM = "0fdff25e6acba3d6094155a7e341634f8de3477e86c2fda4ad47232c1adf704f"
+DART2_BIN_SDK_ARM64_SHA256SUM = "6913b7c0b3b78bc141d372cd473da21771e57372b1ab45c977ce1550c8ff0b9c"
 ```
 
 ## General

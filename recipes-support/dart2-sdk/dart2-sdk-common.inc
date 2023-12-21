@@ -11,3 +11,13 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=29b4ad63b1f1509efea6629404336393"
 
 require conf/include/dart2-sdk-version.inc
+
+do_install:class-target:append () {
+    install -d ${D}${sysconfdir}/skel/.dart
+    echo "" > ${D}${sysconfdir}/skel/.dart/analytics.json
+    echo "{ \"disclosureShown\": true, \"enabled\": false }" > ${D}${sysconfdir}/skel/.dart/dartdev.json
+}
+
+FILES:${PN} = "\
+    ${sysconfdir}/* \
+    "

@@ -63,7 +63,7 @@ python do_archive_pub_cache() {
 
     cp_cmd = \
         'mkdir -p %s/.project | true; ' \
-        'cp -r .dart2_tool %s/.project/ | true; ' \
+        'cp -r .dart_tool %s/.project/ | true; ' \
         'cp -r .packages %s/.project/ | true; ' \
         'cp -r .metadata %s/.project/ | true; ' \
         % (pub_cache, pub_cache, pub_cache, pub_cache)
@@ -168,7 +168,7 @@ do_install() {
     chmod +x ${D}${DART2_APP_INSTALL_DIR}/${DART2_APP_BIN_NAME}
 }
 
-FILES:${PN} = "\
+FILES:${PN} += "\
     ${bindir} \
     ${libdir} \
     ${DART2_APP_INSTALL_DIR} \
